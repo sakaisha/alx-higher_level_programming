@@ -2,6 +2,6 @@
 
 ## Overview
 
-Welcome to the ALX Cohort 18 Higher Level Programming repository! This repository contains a collection of Python and other high-level programming tasks that I am working on as part of my learning journey in the ALX Software Engineering program.
+Welcome to my ALX Higher Level Programming repository! This repository contains a collection of Python and other high-level programming tasks that I am working on as part of my learning journey in the ALX Software Engineering program.
 
 ## Table of Contents
