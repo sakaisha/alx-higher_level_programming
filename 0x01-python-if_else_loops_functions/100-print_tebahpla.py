@@ -1,5 +1,6 @@
-#!/usr/bin/python3
-for i in range(122, 96, -1):
-    print("{}".format(chr(i - 32) if i % 2 == 0 
-        else chr(i)), end="")
-print()
+for i in reversed(range(97, 123)):
+    if (i % 2 == 0):
+        c = chr(i)
+    else:
+        c = chr(i - 32)
+    print("{}".format(c), end='')
