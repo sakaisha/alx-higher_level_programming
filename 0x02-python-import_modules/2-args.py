@@ -9,4 +9,3 @@ if __name__ == "__main__":
         print(f"{argc} argument{'s' if argc != 1 else ''}:")
         for i in range(1, argc + 1):
             print(f"{i}: {sys.argv[i]}")
-
