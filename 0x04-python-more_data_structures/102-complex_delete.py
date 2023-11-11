@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-def complex_delete(a_dictionary, xalue):
+def complex_delete(a_dictionary, value):
     deletekey = []
     for k, x in a_dictionary.items():
-        if x == xalue:
+        if x == value:
             deletekey += [k]
     for k in deletekey:
         a_dictionary.pop(k)
