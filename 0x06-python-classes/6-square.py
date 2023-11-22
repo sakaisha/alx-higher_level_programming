@@ -1,5 +1,6 @@
-"""Defines a Square class with size and position attributes.
+#!/usr/bin/python3
 
+"""
 This module provides a simple Square class with methods to calculate the area
 and print a square using hash (#) characters. The size attribute represents the
 side length of the square, and the position attribute represents the offset of
