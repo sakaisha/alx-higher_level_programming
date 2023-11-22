@@ -10,8 +10,10 @@ Example:
     print(square.get_size())  # Output: 5
 """
 
+
 class Square:
     """ This class represents a square."""
+
 
     def __init__(self, size):
         """
