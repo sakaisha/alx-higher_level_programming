@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 """
-This module defines a Square class.
-
-A Square represents a geometric shape with equal sides.
+Defines a Square class with size attribute.
 
 Attributes:
     size (int): The size of the square's sides.
 
 Methods:
-    __init__(self, size=0): Initializes a new instance of the Square class.
+    __init__(self, size=0): Initializes a new instance of Square.
 
 Raises:
     TypeError: If size is not an integer.
@@ -17,13 +15,13 @@ Raises:
 
 class Square:
     """
-    This class represents a square.
+    Represents a square.
 
     Attributes:
         size (int): The size of the square's sides.
 
     Methods:
-        __init__(self, size=0): Initializes a new instance of the Square class.
+        __init__(self, size=0): Initializes a new instance of Square.
 
     Raises:
         TypeError: If size is not an integer.
@@ -31,7 +29,7 @@ class Square:
     """
     def __init__(self, size=0):
         """
-        Initializes a new instance of the Square class.
+        Initializes a new instance of Square.
 
         Args:
             size (int): The size of the square's sides.
@@ -45,4 +43,3 @@ class Square:
             raise TypeError("size must be an integer")
         elif size < 0:
             raise ValueError("size must be >= 0")
-
