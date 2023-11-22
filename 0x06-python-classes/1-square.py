@@ -11,7 +11,13 @@ Example:
 """
 
 class Square:
-    """Represents a square with a specified size."""
+        """
+    This class represents a square.
+
+    Attributes:
+        size (int): The size of the square.
+    """
+
     def __init__(self, size):
          """Initializes the square with the given size.
 
