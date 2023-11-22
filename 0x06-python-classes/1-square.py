@@ -2,7 +2,8 @@
 """
 This module defines a Square class.
 
-The Square class represents a square shape and is designed to store information about its size.
+The Square class represents a square shape and is
+designed to store information about its size.
 
 Example:
     square = Square(5)
