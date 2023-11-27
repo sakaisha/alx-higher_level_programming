@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Class rectangle 4"""
+"""Class rectangle module 6"""
 
 
 class Rectangle:
     """A class representing a rectangle."""
-
+    
     def __init__(self, width=0, height=0):
         """Initialize the rectangle with specified width and height."""
         self.height = height
@@ -17,7 +17,7 @@ class Rectangle:
 
     @height.setter
     def height(self, value):
-        """Set the height of the rectangle with type and value checks."""
+        """Set the height of the rectangle, validating the input."""
         if type(value) is not int:
             raise TypeError("height must be an integer")
         elif value < 0:
@@ -32,7 +32,7 @@ class Rectangle:
 
     @width.setter
     def width(self, value):
-        """Set the width of the rectangle with type and value checks."""
+        """Set the width of the rectangle, validating the input."""
         if type(value) is not int:
             raise TypeError("width must be an integer")
         elif value < 0:
@@ -58,3 +58,11 @@ class Rectangle:
             if self.__width > 0:
                 lis += ["#" * self.__width]
         return "\n".join(lis)
+
+    def __repr__(self):
+        """Return a string representation of the rectangle for debugging."""
+        return ("Rectangle({}, {})".format(self.width, self.height))
+
+    def __del__(self):
+        """Print a message when the rectangle is deleted."""
+        print("Bye rectangle...")
