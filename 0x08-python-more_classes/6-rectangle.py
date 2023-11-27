@@ -1,13 +1,16 @@
 #!/usr/bin/python3
-"""Class rectangle module 6"""
+"""Class reccc module"""
 
 
 class Rectangle:
-    """A class representing a rectangle."""
+    """Define Rectangle class."""
+    number_of_instances = 0
+
     def __init__(self, width=0, height=0):
-        """Initialize the rectangle with specified width and height."""
+        """Initialize class attributes."""
         self.height = height
         self.width = width
+        Rectangle.number_of_instances += 1
 
     @property
     def height(self):
@@ -16,7 +19,7 @@ class Rectangle:
 
     @height.setter
     def height(self, value):
-        """Set the height of the rectangle, validating the input."""
+        """Set the height of the rectangle."""
         if type(value) is not int:
             raise TypeError("height must be an integer")
         elif value < 0:
@@ -31,7 +34,7 @@ class Rectangle:
 
     @width.setter
     def width(self, value):
-        """Set the width of the rectangle, validating the input."""
+        """Set the width of the rectangle."""
         if type(value) is not int:
             raise TypeError("width must be an integer")
         elif value < 0:
@@ -40,11 +43,11 @@ class Rectangle:
             self.__width = value
 
     def area(self):
-        """Calculate and return the area of the rectangle."""
+        """Calculate the area of the rectangle."""
         return self.__width * self.__height
 
     def perimeter(self):
-        """Calculate and return the perimeter of the rectangle."""
+        """Calculate the perimeter of the rectangle."""
         if self.__width == 0 or self.__height == 0:
             return 0
         else:
@@ -59,9 +62,10 @@ class Rectangle:
         return "\n".join(lis)
 
     def __repr__(self):
-        """Return a string representation of the rectangle for debugging."""
-        return ("Rectangle({}, {})".format(self.width, self.height))
+        """Return a string representation for reproduction."""
+        return f"Rectangle({self.width}, {self.height})"
 
     def __del__(self):
-        """Print a message when the rectangle is deleted."""
+        """Delete an instance of the rectangle."""
+        Rectangle.number_of_instances -= 1
         print("Bye rectangle...")
