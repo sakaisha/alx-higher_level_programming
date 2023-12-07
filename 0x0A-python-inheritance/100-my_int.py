@@ -4,7 +4,7 @@
 
 class MyInt(int):
     """A class to compare to integer values."""
-    
+
     def __init__(self, value):
         """Initialize attribute with a given value."""
         self.value = value

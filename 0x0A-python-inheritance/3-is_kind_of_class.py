@@ -10,6 +10,6 @@ def is_kind_of_class(obj, a_class):
         a_class: The class to check against.
 
     Returns:
-        bool: True if the object is an instance of the specified class, otherwise False.
+        bool: True if  object is an inst of specified class, otherwise False.
     """
     return isinstance(obj, a_class)
