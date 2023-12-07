@@ -7,7 +7,6 @@ This module defines the BaseGeometry class as a base for geometry operations.
 class BaseGeometry:
     """Base class for geometry."""
 
-
     def area(self):
         """Calculate area - to be implemented in subclasses."""
         raise Exception("area() is not implemented")
@@ -22,7 +21,7 @@ class BaseGeometry:
         Raises:
             TypeError: If the value is not an integer.
             ValueError: If the value is less than or equal to 0.
-        
+
         Returns:
             int: The validated integer value.
         """
