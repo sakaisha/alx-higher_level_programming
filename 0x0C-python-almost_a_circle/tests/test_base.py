@@ -1,4 +1,5 @@
-re test cases"""
+#!/usr/bin/python3
+"""Unittest for class base"""
 
 import unittest
 import sys
@@ -9,7 +10,7 @@ from models.square import Square
 
 
 class TestBase(unittest.TestCase):
-    """Base testing"""
+    """class for Test Base"""
 
     def testId1(self):
         """test Id only"""

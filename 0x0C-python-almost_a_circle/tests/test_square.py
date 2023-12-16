@@ -1,4 +1,5 @@
-ts but for Square"""
+#!/usr/bin/python3
+"""Unittest for class base"""
 
 import sys
 import io

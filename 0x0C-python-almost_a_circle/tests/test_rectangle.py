@@ -1,4 +1,5 @@
-t cases for Rectangle"""
+#!/usr/bin/python3
+"""Unittest for Rectangle"""
 
 import sys
 import io

@@ -1,4 +1,5 @@
-s is base models"""
+#!/usr/bin/python3
+"""this is base models"""
 
 import json
 import csv
