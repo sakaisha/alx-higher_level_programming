@@ -1,13 +1,13 @@
 #!/usr/bin/python3
+copy_list = __import__('19-copy_list').copy_list
 
-from copy_list import copy_list
+Original_List = [1, 2, 3]
+print("Original List:", Original_List)
 
-def main():
-    original_list = [1, 2, 3, 4, 5]
-    copied_list = copy_list(original_list)
-    
-    print("Original List:", original_list)
-    print("Copied List:", copied_list)
+Copied_List = copy_list(Original_List)
 
-if __name__ == "__main__":
-    main()
+print("Original List:", Original_List)
+print("Copied List:", Copied_List)
+
+print("Are the lists equal?", Copied_List == Original_List)
+print("Are the lists identical?", Copied_List is Original_List)
