@@ -1,100 +1,132 @@
 #!/usr/bin/python3
-"""rectangle class module"""
+from sys import argv
+
+l = len(argv)
+if l != 2:
+    print("Usage: nqueens N")
+    exit(1)
+if not argv[1].isdigit():
+    print("N must be a number")
+    exit(1)
+elif int(argv[1]) < 4:
+    print("N must be at least 4")
+    exit(1)
 
 
-class Rectangle:
-    """rectangle class
-    attribute number_of_instances: num of Rectangle objects
-    """
-    print_symbol = '#'
-    number_of_instances = 0
+class Board:
+    def __init__(self, size=0, array=0, next_arr=None):
+        self.size = size
+        self.array = array
+        self.next_arr = None
 
-    def __init__(self, width=0, height=0):
-        """__init__: an instance method that is called
-        when a new object created"""
-        self.width = width
-        self.height = height
-        Rectangle.number_of_instances += 1
+    def set_queen(self, queen, array):
+        """locate Queen on Board at empty cell"""
+        for y in range(self.size):
+            for x in range(self.size):
+                if array[y][x] == 0:
+                    queen.pos_x = x
+                    queen.pos_y = y
+                    array[y][x] == 2
+                    return array
+        queen.pos_x = -1
 
-    @property
-    def width(self):
-        """width getter function"""
-        return self.__width
+    def next_queen(self, array):
+        """move the Queen to next empty cell on board"""
+        for y in range(self.size):
+            for x in range(self.size):
+                if array[y][x] == 0:
+                    array[y][x] = 1
+                    return array
 
-    @width.setter
-    def width(self, value):
-        """width setter function"""
-        if not isinstance(value, int):
-            raise TypeError('width must be an integer')
-        if value < 0:
-            raise ValueError('width must be >= 0')
-        self.__width = value
 
-    @property
-    def height(self):
-        """height getter function"""
-        return self.__height
+class Status:
+    def __init__(self, size, stat_arr=[]):
+        self.stat_arr = stat_arr
+        self.size = size
 
-    @height.setter
-    def height(self, value):
-        """height setter function"""
-        if not isinstance(value, int):
-            raise TypeError('height must be an integer')
-        if value < 0:
-            raise ValueError('height must be >= 0')
-        self.__height = value
+    def reset_arr(self):
+        """reset the arr to arr of 0"""
+        l = len(self.stat_arr)
+        while l > 1:
+            self.stat_arr.pop()
+            l -= 1
 
-    def area(self):
-        """Returns the area"""
-        return self.__width * self.__height
+    def return_comb(self):
+        """create a combination of Queen location"""
+        comb = []
+        for y in range(self.size):
+            for x in range(self.size):
+                if self.stat_arr[-1][y][x] == 2:
+                    comb += [[y, x]]
+        return comb
 
-    def perimeter(self):
-        """Returns the perimeter"""
-        if self.__width == 0 or self.__height == 0:
-            return 0
-        return (self.__width + self.__height) * 2
+    def check_2(self):
+        """return the status of board when queen is
+        first located. Fill the all cell until queen
+        location"""
+        ret_arr = [[0 for x in range(self.size)] for y in range(self.size)]
+        for x in range(self.size - 1):
+            ret_arr[0][x] = 1
+            if self.stat_arr[1][0][x] == 2:
+                return ret_arr
+        return False
 
-    def __str__(self):
-        """returns the string representation of Rectangle Object"""
-        if self.__height == 0 or self.__width == 0:
-            return ''
-        sympol = str(self.print_symbol)
-        pattern = self.__width * sympol
-        rectangle = ''
-        for i in range(self.__height):
-            rectangle += pattern
-            if i == self.__height - 1:
-                break
-            rectangle += '\n'
-        return rectangle
 
-    def __repr__(self):
-        """returns the string representation of Rectangle Object
-        that can be used to creat new object using eval()"""
-        return f"Rectangle({self.__width}, {self.__height})"
+class Queen:
+    def __init__(self, size=0, pos_x=0, pos_y=0):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.size = size
 
-    def __del__(self):
-        """
-        It is called when the instance is about to be destroyed
-        and if there is no other reference to this instance.
-        """
-        print('Bye rectangle...')
-        Rectangle.number_of_instances -= 1
+    def move_queen(self, arr):
+        """move the queen follow queen rules"""
+        array = [sub_arr[:] for sub_arr in arr]
+        for i in range(self.size):
+            array[self.pos_y][i] = 1
+            array[i][self.pos_x] = 1
+            if self.pos_y + i < self.size and self.pos_x + i < self.size:
+                array[self.pos_y + i][self.pos_x + i] = 1
+            if self.pos_y - i >= 0 and self.pos_x - i >= 0:
+                array[self.pos_y - i][self.pos_x - i] = 1
+            if self.pos_y + i < self.size and self.pos_x - i >= 0:
+                array[self.pos_y + i][self.pos_x - i] = 1
+            if self.pos_y - i >= 0 and self.pos_x + i < self.size:
+                array[self.pos_y - i][self.pos_x + i] = 1
+        array[self.pos_y][self.pos_x] = 2
+        return array
 
-    @staticmethod
-    def bigger_or_equal(rect_1, rect_2):
-        """returns the biggest rectangle based on the area"""
-        if not isinstance(rect_1, Rectangle):
-            raise TypeError('rect_1 must be an instance of Rectangle')
-        if not isinstance(rect_2, Rectangle):
-            raise TypeError('rect_2 must be an instance of Rectangle')
-        area1 = rect_1.area()
-        area2 = rect_2.area()
-        if area1 >= area2:
-            return rect_1
-        else:
-            return rect_2
 
-    @classmethod
-    def square(cls, size=0):
-        return cls(size, size)
+def run(size):
+    """hand moving for queen to empty cell and go back to previous case
+    when no more empty cell"""
+    arr = [[0 for x in range(size)] for y in range(size)]
+    board = Board(size, arr)
+    status = Status(size, [arr])
+    queen = Queen(size)
+    i = 1
+    while True:
+        arr = board.set_queen(queen, arr)
+        if queen.pos_x != -1:
+            arr = queen.move_queen(arr)
+            status.stat_arr.append(arr)
+            i += 1
+            if i == size + 1:
+                print(status.return_comb())
+        elif queen.pos_x == -1:
+            """ go back to previouse status when
+            no more cell for Queen moving
+            """
+            if len(status.stat_arr) > 2:
+                status.stat_arr.pop()
+                arr = status.stat_arr[-1]
+                arr = board.next_queen(arr)
+                i -= 1
+            elif len(status.stat_arr) == 2:
+                """go to first situation """
+                if status.check_2():
+                    arr = status.check_2()
+                    status.reset_arr()
+                    i = 1
+                else:
+                    exit()
+run(int(argv[1]))
