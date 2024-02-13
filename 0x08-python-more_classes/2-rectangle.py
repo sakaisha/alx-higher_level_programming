@@ -26,14 +26,24 @@ class Rectangle:
 
     @property
     def height(self):
-        """width getter function"""
+        """height getter function"""
         return self.__height
 
     @height.setter
     def height(self, value):
-        """width setter function"""
+        """height setter function"""
         if not isinstance(value, int):
             raise TypeError('height must be an integer')
         if value < 0:
             raise ValueError('height must be >= 0')
         self.__height = value
+
+    def area(self):
+        """Returns the area"""
+        return self.__width * self.__height
+
+    def perimeter(self):
+        """Returns the perimeter"""
+        if self.__width == 0 or self.__height == 0:
+            return 0
+        return (self.__width + self.__height) * 2
