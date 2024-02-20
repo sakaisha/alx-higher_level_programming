@@ -1,52 +1,59 @@
 #!/usr/bin/python3
-"""This module contains a script about
-log parsing"""
+# 101-stats.py
+"""Reads from standard input and computes metrics.
 
-import sys
-import signal
-
-"""Initialize variables"""
-slit_line = []
-file_size = 0
-num_file = {}
-ct = 0
+After every ten lines or the input of a keyboard interruption (CTRL + C),
+prints the following statistics:
+    - Total file size up to that point.
+    - Count of read status codes up to that point.
+"""
 
 
-def signal_handler(signal, frame):
-    """Signal handler function to print file size and HTTP status codes."""
-    sys.stdout.write("File size: {}\n".format(file_size))
-    for k, v in sorted(num_file.items()):
-        sys.stdout.write("{}: {}\n".format(k, v))
+def print_stats(size, status_codes):
+    """Print accumulated metrics.
 
+    Args:
+        size (int): The accumulated read file size.
+        status_codes (dict): The accumulated count of status codes.
+    """
+    print("File size: {}".format(size))
+    for key in sorted(status_codes):
+        print("{}: {}".format(key, status_codes[key]))
 
-"""Register signal handler for SIGINT"""
-signal.signal(signal.SIGINT, signal_handler)
+if __name__ == "__main__":
+    import sys
 
-"""Iterate over input lines"""
-for line in sys.stdin:
-    """Split the line"""
-    split_line = line.split()
-    """Update total file size"""
-    file_size += int(split_line[-1])
-    """List of HTTP status codes"""
-    list_code = ["200", "301", "400", "401", "403", "404", "405", "500"]
-    """Check if status code is in the dictionary"""
-    if split_line[-2] in num_file and split_line[-2] in list_code:
-        """Increment count if status code exists"""
-        num_file[split_line[-2]] += 1
-        ct += 1
-    elif split_line[-2] in list_code:
-        """Add status code to dictionary if it doesn't exist"""
-        num_file[split_line[-2]] = 1
-        ct += 1
-    """Check if 10 lines have been processed"""
-    if ct == 10:
-        """Print file size and status codes"""
-        sys.stdout.write("File size: {}\n".format(file_size))
-        for k, v in sorted(num_file.items()):
-            sys.stdout.write("{}: {}\n".format(k, v))
-        """Reset counter"""
-        ct = 0
+    size = 0
+    status_codes = {}
+    valid_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
+    count = 0
 
-"""Final signal handler to print when the script ends"""
-signal_handler(None, None)
+    try:
+        for line in sys.stdin:
+            if count == 10:
+                print_stats(size, status_codes)
+                count = 1
+            else:
+                count += 1
+
+            line = line.split()
+
+            try:
+                size += int(line[-1])
+            except (IndexError, ValueError):
+                pass
+
+            try:
+                if line[-2] in valid_codes:
+                    if status_codes.get(line[-2], -1) == -1:
+                        status_codes[line[-2]] = 1
+                    else:
+                        status_codes[line[-2]] += 1
+            except IndexError:
+                pass
+
+        print_stats(size, status_codes)
+
+    except KeyboardInterrupt:
+        print_stats(size, status_codes)
+        raise
