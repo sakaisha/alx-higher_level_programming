@@ -2,34 +2,51 @@
 """This module contains a script about
 log parsing"""
 
-
 import sys
+import signal
 
-statusCodeDict = {'200': 0, '301': 0, '400': 0, '401': 0,
-                  '403': 0, '404': 0, '405': 0, '500': 0}
-totalSize = 0
-count = 0
+"""Initialize variables"""
+slit_line = []
+file_size = 0
+num_file = {}
+ct = 0
+
+
+def signal_handler(signal, frame):
+    """Signal handler function to print file size and HTTP status codes."""
+    sys.stdout.write("File size: {}\n".format(file_size))
+    for k, v in sorted(num_file.items()):
+        sys.stdout.write("{}: {}\n".format(k, v))
+
+
+"""Register signal handler for SIGINT"""
+signal.signal(signal.SIGINT, signal_handler)
+
+"""Iterate over input lines"""
 for line in sys.stdin:
-    if line:
-        lineContent = line.split()
-        statusCode = lineContent[-2]
-        fileSize = int(lineContent[-1])
-        totalSize += fileSize
-        if statusCode in statusCodeDict.keys():
-            statusCodeDict[statusCode] += 1
-        count += 1
+    """Split the line"""
+    split_line = line.split()
+    """Update total file size"""
+    file_size += int(split_line[-1])
+    """List of HTTP status codes"""
+    list_code = ["200", "301", "400", "401", "403", "404", "405", "500"]
+    """Check if status code is in the dictionary"""
+    if split_line[-2] in num_file and split_line[-2] in list_code:
+        """Increment count if status code exists"""
+        num_file[split_line[-2]] += 1
+        ct += 1
+    elif split_line[-2] in list_code:
+        """Add status code to dictionary if it doesn't exist"""
+        num_file[split_line[-2]] = 1
+        ct += 1
+    """Check if 10 lines have been processed"""
+    if ct == 10:
+        """Print file size and status codes"""
+        sys.stdout.write("File size: {}\n".format(file_size))
+        for k, v in sorted(num_file.items()):
+            sys.stdout.write("{}: {}\n".format(k, v))
+        """Reset counter"""
+        ct = 0
 
-        if count == 10:
-            print(f"File size: {totalSize}")
-            for key in statusCodeDict.keys():
-                if statusCodeDict[key] == 0:
-                    continue
-                print(f'{key}: {statusCodeDict[key]}')
-            count = 0
-
-if count > 0:  # This condition for if the input were less than 10
-    print(f"File size: {totalSize}")
-    for key in statusCodeDict.keys():
-        if statusCodeDict[key] == 0:
-            continue
-        print(f'{key}: {statusCodeDict[key]}')
+"""Final signal handler to print when the script ends"""
+signal_handler(None, None)
