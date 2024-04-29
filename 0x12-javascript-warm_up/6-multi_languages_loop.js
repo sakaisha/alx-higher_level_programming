@@ -1,8 +1,6 @@
 #!/usr/bin/node
-/* 6-multi_languages_loop.js
-*/
-const arr = ['C is fun', 'Python is cool',
-  'Javascript is amazing'];
-for (let i = 0; i < arr.length; i++) {
-  console.log(arr[i]);
-}
+
+const array = ['C is fun', 'Python is cool', 'JavaScript is amazing'];
+array.forEach(element => {
+  console.log(element);
+});
